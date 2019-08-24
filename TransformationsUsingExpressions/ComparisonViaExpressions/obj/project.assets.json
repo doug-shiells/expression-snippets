@@ -694,11 +694,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Code\\Expressions\\TransformationsUsingExpressions\\ComparisonViaExpressions\\ComparisonViaExpressions.csproj",
+      "projectUniqueName": "D:\\Code\\expression-snippets\\TransformationsUsingExpressions\\ComparisonViaExpressions\\ComparisonViaExpressions.csproj",
       "projectName": "ComparisonViaExpressions",
-      "projectPath": "D:\\Code\\Expressions\\TransformationsUsingExpressions\\ComparisonViaExpressions\\ComparisonViaExpressions.csproj",
+      "projectPath": "D:\\Code\\expression-snippets\\TransformationsUsingExpressions\\ComparisonViaExpressions\\ComparisonViaExpressions.csproj",
       "packagesPath": "C:\\Users\\dougs\\.nuget\\packages\\",
-      "outputPath": "D:\\Code\\Expressions\\TransformationsUsingExpressions\\ComparisonViaExpressions\\obj\\",
+      "outputPath": "D:\\Code\\expression-snippets\\TransformationsUsingExpressions\\ComparisonViaExpressions\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

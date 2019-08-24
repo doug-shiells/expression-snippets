@@ -27,7 +27,7 @@ namespace TransformationsUsingExpressions
 
             //print results
             var enumerator = transformed.GetEnumerator();
-            foreach(var source in sourceData)
+            foreach (var source in sourceData)
             {
                 enumerator.MoveNext();
                 Console.WriteLine($"{source.Name} => {enumerator.Current.Name}");
@@ -36,7 +36,7 @@ namespace TransformationsUsingExpressions
                 Console.WriteLine($"~~~~~~~~~~~~~~~~~~~~~");
             }
         }
-        
+
 
         /// <summary>
         /// Generates a delegate that accepts a source object 
@@ -55,7 +55,7 @@ namespace TransformationsUsingExpressions
             //Build expression to execute the constructor 
             var constructorExpression = Expression.New(ctor, parameterExpressions);
             //Compile expression to a func<T,T>
-            return Expression.Lambda<Func<T,T>>(constructorExpression, parentParameter).Compile();
+            return Expression.Lambda<Func<T, T>>(constructorExpression, parentParameter).Compile();
         }
 
         /// <summary>
@@ -69,12 +69,12 @@ namespace TransformationsUsingExpressions
                     //Build expression to call MapForeignKey method with argument parameter 
                     ExpressionHelpers.GenerateForeignKeyTransformation(
                         //Build expression to read parameter from source object
-                        ExpressionHelpers.GetProperty(example, (dynamic)typeof(T).GetProperty(parameter.Name).GetValue(example), parameter.Name), parameter.Name),
+                        ExpressionHelpers.GetPropertyExpression(example, example.GetProperty(parameter.Name), parameter.Name), parameter.Name),
                     parentParameter)
                 //Convert to invocation expression (I am calling the parameters get method)
                 : Expression.Invoke(
                     //Build expression to read parameter from source object
-                    ExpressionHelpers.GetProperty(example, (dynamic)typeof(T).GetProperty(parameter.Name).GetValue(example), parameter.Name),
+                    ExpressionHelpers.GetPropertyExpression(example, example.GetProperty(parameter.Name), parameter.Name),
                     parentParameter);
         }
     }
@@ -91,7 +91,7 @@ namespace TransformationsUsingExpressions
 
         public static T TransformForeignKey<T>(T key, string propertyName)
         {
-            return ForeignKeyMap[propertyName][key]; 
+            return ForeignKeyMap[propertyName][key];
         }
 
         public static bool IsForeignKey(string propertyName)
@@ -123,7 +123,7 @@ namespace TransformationsUsingExpressions
         /// <param name="propertyExample">Example object used to resolve Generic type T2</param>
         /// <param name="propertyName">Name of the property to be read</param>
         /// <returns></returns>
-        public static Expression<Func<T, T2>> GetProperty<T, T2>(T sourceExample, T2 propertyExample, string propertyName)
+        public static Expression<Func<T, T2>> GetPropertyExpression<T, T2>(T sourceExample, T2 propertyExample, string propertyName)
         {
             var p = Expression.Parameter(typeof(T));
             var propertyReaderExp = Expression.PropertyOrField(p, propertyName);
@@ -148,6 +148,19 @@ namespace TransformationsUsingExpressions
 
             var methodCallingExpression = Expression.Call(typeof(ForeignKeyTransformer).GetMethod(nameof(ForeignKeyTransformer.TransformForeignKey)).MakeGenericMethod(typeof(T2)), invokedExpression, propertyNameExpression);
             return Expression.Lambda<Func<T, T2>>(methodCallingExpression, propertyValueExpressionParameter);
+        }
+    }
+
+    public static class ObjectExtensions
+    {
+        /// <summary>
+        /// Uses reflection to return the vale of a property with a given name
+        /// </summary>
+        /// <param name="propertyName">Name of property to return</param>
+        /// <returns></returns>
+        public static dynamic GetProperty(this object source, string propertyName)
+        {
+            return (dynamic)source.GetType().GetProperty(propertyName).GetValue(source);
         }
     }
 }

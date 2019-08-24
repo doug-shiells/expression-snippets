@@ -694,11 +694,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Code\\Expressions\\TransformationsUsingExpressions\\TransformationsUsingExpressions\\TransformationsUsingExpressions.csproj",
+      "projectUniqueName": "D:\\Code\\expression-snippets\\TransformationsUsingExpressions\\TransformationsUsingExpressions\\TransformationsUsingExpressions.csproj",
       "projectName": "TransformationsUsingExpressions",
-      "projectPath": "D:\\Code\\Expressions\\TransformationsUsingExpressions\\TransformationsUsingExpressions\\TransformationsUsingExpressions.csproj",
+      "projectPath": "D:\\Code\\expression-snippets\\TransformationsUsingExpressions\\TransformationsUsingExpressions\\TransformationsUsingExpressions.csproj",
       "packagesPath": "C:\\Users\\dougs\\.nuget\\packages\\",
-      "outputPath": "D:\\Code\\Expressions\\TransformationsUsingExpressions\\TransformationsUsingExpressions\\obj\\",
+      "outputPath": "D:\\Code\\expression-snippets\\TransformationsUsingExpressions\\TransformationsUsingExpressions\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
