@@ -1,0 +1,10 @@
+D:\Code\Expressions\TransformationsUsingExpressions\ComparisonViaExpressions\bin\Debug\netcoreapp2.1\ComparisonViaExpressions.deps.json
+D:\Code\Expressions\TransformationsUsingExpressions\ComparisonViaExpressions\bin\Debug\netcoreapp2.1\ComparisonViaExpressions.runtimeconfig.json
+D:\Code\Expressions\TransformationsUsingExpressions\ComparisonViaExpressions\bin\Debug\netcoreapp2.1\ComparisonViaExpressions.runtimeconfig.dev.json
+D:\Code\Expressions\TransformationsUsingExpressions\ComparisonViaExpressions\bin\Debug\netcoreapp2.1\ComparisonViaExpressions.dll
+D:\Code\Expressions\TransformationsUsingExpressions\ComparisonViaExpressions\bin\Debug\netcoreapp2.1\ComparisonViaExpressions.pdb
+D:\Code\Expressions\TransformationsUsingExpressions\ComparisonViaExpressions\obj\Debug\netcoreapp2.1\ComparisonViaExpressions.csproj.CoreCompileInputs.cache
+D:\Code\Expressions\TransformationsUsingExpressions\ComparisonViaExpressions\obj\Debug\netcoreapp2.1\ComparisonViaExpressions.AssemblyInfoInputs.cache
+D:\Code\Expressions\TransformationsUsingExpressions\ComparisonViaExpressions\obj\Debug\netcoreapp2.1\ComparisonViaExpressions.AssemblyInfo.cs
+D:\Code\Expressions\TransformationsUsingExpressions\ComparisonViaExpressions\obj\Debug\netcoreapp2.1\ComparisonViaExpressions.dll
+D:\Code\Expressions\TransformationsUsingExpressions\ComparisonViaExpressions\obj\Debug\netcoreapp2.1\ComparisonViaExpressions.pdb
