@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
@@ -11,14 +12,16 @@ namespace ComparisonViaExpressions
 
             dynamic[] left = new dynamic[] {
             new {Name = "John", Age = 53, fk = 12},
-            new {Name = "Alex", Age = 22, fk = 12},
-            new {Name = "Angela", Age = 33, fk = 12}
+            new {Name = "Alex", Age = 22, fk = 13},
+            new {Name = "Angela", Age = 33, fk = 12},
+            new {Name = "George", Age = 23, fk = 15}
             };
 
                     dynamic[] right = new dynamic[] {
             new {Name = "John", Age = 53, fk = 1},
-            new {Name = "Alex", Age = 21, fk = 12},
-            new {Name = "Angela", Age = 33, fk = 12}
+            new {Name = "Alex", Age = 21, fk = 2},
+            new {Name = "Angela", Age = 33, fk = 3},
+            new {Name = "george", Age = 23, fk = 4}
             };
 
             //Used for type identification in generic method
@@ -46,8 +49,14 @@ namespace ComparisonViaExpressions
             var compiledExpression = dynamicEqualityComparer.Compile();
 
             //Execute expression over data set 
+            Console.WriteLine("Key Mappings for fk");
+            Console.WriteLine(string.Join(Environment.NewLine, ForeignKeyTransformer.ForeignKeyMap["fk"].Select(keyMap => $"{keyMap.Key} => {keyMap.Value}")));
+
+            Console.WriteLine($"{Environment.NewLine}left.Name == right.Name && left.Age == right.Age && left.fk == right.fk == ??");
+
             for (int i = 0; i < left.Length; i++)
             {
+                Console.Write($"{left[i].Name} == {right[i].Name} && {left[i].Age} == {right[i].Age} && {left[i].fk} == {right[i].fk} == ");
                 Console.WriteLine(compiledExpression(left[i], right[i]));
             }
         }
@@ -55,16 +64,33 @@ namespace ComparisonViaExpressions
     }
     public static class ForeignKeyTransformer
     {
-        public static string[] foreignKeys = new string[] { "fk" };
-        public static int TransformForeignKey(int key, string propertyName)
+        public static string[] foreignKeyColumns = new string[] { "fk" };
+        public static Dictionary<string, Dictionary<dynamic, dynamic>> ForeignKeyMap;
+
+        static ForeignKeyTransformer()
         {
-            if (foreignKeys.Contains(propertyName))
-            {
-                Console.WriteLine("Mapping key for column " + propertyName);
-                return 12; //Do actual mapping transformation here
-            }
-            else
-                return key;
+            ForeignKeyMap = PopulateForeginKeyMap();
+        }
+
+        public static T TransformForeignKey<T>(T key, string propertyName)
+        {
+            return ForeignKeyMap[propertyName][key];
+        }
+
+        public static bool IsForeignKey(string propertyName)
+        {
+            return foreignKeyColumns.Contains(propertyName);
+        }
+
+        private static Dictionary<string, Dictionary<dynamic, dynamic>> PopulateForeginKeyMap()
+        {
+            var map = new Dictionary<string, Dictionary<dynamic, dynamic>>();
+            map.Add("fk", new Dictionary<dynamic, dynamic>());
+            map["fk"].Add(1, 12);
+            map["fk"].Add(2, 13);
+            map["fk"].Add(3, 14);
+            map["fk"].Add(4, 15);
+            return map;
         }
     }
 
@@ -93,14 +119,14 @@ namespace ComparisonViaExpressions
 
         public static Expression<Func<T, T2>> GetTransformation<T, T2>(Expression<Func<T, T2>> expr, string propertyName)
         {
-            if (typeof(T2) == typeof(int))
+            if (ForeignKeyTransformer.IsForeignKey(propertyName))
             {
                 var propertyNameExpression = Expression.Constant(propertyName);
                 var propertyValueExpressionParameter = Expression.Parameter(typeof(T));
 
                 var invokedExpression = Expression.Invoke(expr, propertyValueExpressionParameter);
 
-                var methodCallingExpression = Expression.Call(typeof(ForeignKeyTransformer).GetMethod("TransformForeignKey"), invokedExpression, propertyNameExpression);
+                var methodCallingExpression = Expression.Call(typeof(ForeignKeyTransformer).GetMethod(nameof(ForeignKeyTransformer.TransformForeignKey)).MakeGenericMethod(typeof(T2)), invokedExpression, propertyNameExpression);
                 return Expression.Lambda<Func<T, T2>>(methodCallingExpression, propertyValueExpressionParameter);
             }
             return expr;
